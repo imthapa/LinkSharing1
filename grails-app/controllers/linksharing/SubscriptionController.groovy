@@ -37,10 +37,10 @@ class SubscriptionController {
     }
 
     //todo Domain2 Q17) Create update action which takes an id and serious as a parameter if subscription and seriousness found, then save else render not found, if saved then render success else errors
-    def update(Integer id, String seriousness) {
+    def update(long id, String seriousness) {
         Subscription subscription = Subscription.get(id)
         def seriousness1 = Seriousness.toSeriousness(seriousness)
-        log.info("$seriousness1")
+        log.info("$seriousness1 $id")
         if (subscription != null && seriousness1 instanceof Seriousness) {
             subscription.seriousness = seriousness1
             subscription.save(flush: true, failOnError: true)

@@ -1,3 +1,4 @@
+<%@ page import="com.ttnd.linksharing.util.Seriousness" %>
 <!-- <div class="row"> -->
 <g:each in="${topics}" var="topic">
     <div class="well">
@@ -47,28 +48,36 @@
         </div>
 
         <div class="row pull-right">
-            <span class="dropdown">
-                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">serious <b
-                        class="caret"></b></button>
-                <ul class="dropdown-menu" role="menu">
-                    <li role="presentation"><a href="#" role="menuitem">Casual</a></li>
-                    <li role="presentation"><a href="#" role="menuitem">Serious</a></li>
-                    <li role="presentation"><a href="#" role="menuitem">very Serious</a></li>
-                </ul>
-            </span>
-            <span class="dropdown">
-                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">private <b
-                        class="caret"></b></button>
-                <ul class="dropdown-menu" role="menu">
-                    <li role="presentation"><a href="#" role="menuitem">public</a></li>
-                    <li role="presentation"><a href="#" role="menuitem">private</a></li>
-                </ul>
-            </span>
+            <ls:showSeriousness topicId="${topic.id}"/>
+            <g:if test="${session.user.userName == topic.createdBy.userName}">
+                <span class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">private <b
+                            class="caret"></b></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a href="#" role="menuitem">public</a></li>
+                        <li role="presentation"><a href="#" role="menuitem">private</a></li>
+                    </ul>
+                </span>
+            </g:if>
             <span style="display: inline-block;">
-                <a href="#"><span class="glyphicon glyphicon-envelope glyphsize"></span></a>
-                <a href="#"><span class="glyphicon glyphicon-edit glyphsize"></span></a>
-                <a href="#"><span class="glyphicon glyphicon-trash glyphsize"></span></a>
+                <span data-toggle="modal" data-target="#sendInvitation">
+                    <i class="fa fa-envelope fa-2x"></i>
+                </span>
+                <g:render template="/topic/invite"/>
+                <g:if test="${session.user.userName == topic.createdBy.userName}">
+                    <a href="#"><span class="glyphicon glyphicon-edit glyphsize"></span></a>
+                    <a href="#"><span class="glyphicon glyphicon-trash glyphsize"></span></a>
+                </g:if>
             </span>
         </div><br>
     </div>
 </g:each>
+<script type="text/javascript">
+    function updateSeriousness(val) {
+        jQuery.ajax({
+            type: 'POST',
+            data: {'subscriptionId': val.id, 'seriousness': val.value},
+            url: '/subscription/update',
+        });
+    }
+</script>

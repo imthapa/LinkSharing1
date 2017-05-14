@@ -44,14 +44,13 @@ class LinkSharingTagLib {
             if (readingItem) {
                 if (readingItem.isRead) {
                     body = "Mark As Unread"
-                    isRead = true
+                    isRead = false
                 } else {
                     body = "Mark As Read"
-                    isRead = false
+                    isRead = true
                 }
                 out << link(controller: 'readingItem', action: 'changeIsRead', name: 'readingItem',
                         params: [id: resource.id, isRead: isRead], body)
-
             }
         }
     }
@@ -106,6 +105,19 @@ class LinkSharingTagLib {
             }
         }
         out << count
+    }
+
+
+    def showSeriousness = { attrs, body ->
+        User user = session.user
+        Long topicId = attrs.topicId
+        if (user && topicId) {
+            Subscription subscription = Subscription.findByUserAndTopic(user,Topic.get(topicId))//user.getSubscription(topicId)
+//           log.info("$subscription--------------------------------------------------------")
+            if (subscription) {
+                out << render(template: '/topic/subscription', model: [subscription: subscription])
+            }
+        }
     }
 
     /*def topiCreated = { attrs ->

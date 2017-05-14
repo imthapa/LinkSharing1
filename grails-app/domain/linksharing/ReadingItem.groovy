@@ -3,6 +3,7 @@ package linksharing
 import com.ttnd.linksharing.co.SearchCO
 
 class ReadingItem {
+
     Boolean isRead
     Date dateCreated
     Date lastUpdated
@@ -34,8 +35,9 @@ class ReadingItem {
         - If value returned by executeUpdate is 0 then render error else render success
     */
     //working fine
-    static def changeIsRead(Long id, Boolean isRead) {
-        int flag = ReadingItem.executeUpdate("update ReadingItem set isRead=:isRead where id =:id", [isRead: isRead, id: id])
+    static def changeIsRead(Long id, Boolean isRead,long user_Id) {
+        int flag = ReadingItem.executeUpdate("update ReadingItem set isRead=:isRead where resource_id =:id and user_id=:",
+                [isRead: isRead, id: id,user_id:user_Id])
         if (flag == 0){
             return "error"
         }

@@ -6,7 +6,7 @@ class ReadingItemController {
 
     def changeIsRead(Long id, Boolean isRead){
         log.info("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj$id     pppp n      $isRead")
-        ReadingItem.changeIsRead(id,isRead)
+        render "${ReadingItem.changeIsRead(id,isRead,session.user.id)}"
 
     }
 }
