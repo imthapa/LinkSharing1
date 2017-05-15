@@ -4,6 +4,18 @@
 <head>
     <title>Admin Dashboard</title>
     <meta name="layout" content="main"/>
+    <script type="text/javascript">
+        function changeActiveness(element) {
+            jQuery.ajax({
+                type:'POST',
+                data:{'id': element.id},
+                url:'/admin/changeActive',
+                success:function () {
+                    location.reload()
+                }
+            });
+        }
+    </script>
 </head>
 
 <body>
@@ -21,18 +33,19 @@
                     <g:select name="visibility" from="${Visibility.values()}" class="form-control"
                               defaultLabel="Visibility" id="visibility"/>
                 </div>
+
                 <div class="col-md-6">
-                <g:form class="search-form" controller="topic" action="search">
-                    <div class="form-group has-feedback">
-                        %{--<label class="sr-only">Search</label>--}%
-                        <g:hiddenField name="id" value=""/>
-                        <g:hiddenField name="max" value="10"/>
-                        <g:hiddenField name="offset" value="0"/>
-                        <input style="border-radius: 20px" type="text" class="form-control" name="q" id="q"
-                               placeholder="search">
-                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                    </div>
-                </g:form>
+                    <g:form class="search-form" controller="topic" action="search">
+                        <div class="form-group has-feedback">
+                            %{--<label class="sr-only">Search</label>--}%
+                            <g:hiddenField name="id" value=""/>
+                            <g:hiddenField name="max" value="10"/>
+                            <g:hiddenField name="offset" value="0"/>
+                            <input style="border-radius: 20px" type="text" class="form-control" name="q" id="q"
+                                   placeholder="search">
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+                    </g:form>
                 </div>
             </div>
             %{--</div>--}%
@@ -60,14 +73,15 @@
                     <td>${user.email}</td>
                     <td>${user.firstName}</td>
                     <td>${user.lastName}</td>
-                    <td>${user.active}</td>
-                    <td>Activate</td>
+                    <td >${user.active}</td>
+                    <td> <button class="btn" id="${user.id}" onclick="changeActiveness(this)"><ls:activateToggle id = "${user.id}"/></button></td>
                     %{--<td><button class="btn btn-success" >update</button></td>--}%
                 </tr></g:each>
             </tbody>
         </table>
         %{--</div>--}%
     </div>
-
+</div>
 </body>
+
 </html>

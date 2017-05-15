@@ -19,7 +19,7 @@ class ResourceController {
     //todo Domain2 - Q3. Use read() for /topic/show and load() for /resource/delete & /topic/delete action.
     def delete(long id) {
         String result = resourceService.delete(id)
-        render result
+        redirect(controller: "user", action: "index")
     }
 
     def save(LinkCO linkCo) {
@@ -86,13 +86,21 @@ class ResourceController {
         redirect controller: "user", action: "index"
     }
 
-    def download(long id){
+    def download(long id) {
         Resource resource = Resource.get(id)
         log.info("$resource.filePath")
-        response.setHeader("Content-Disposition","attachment;filename=myfile")
-        byte[] myBytes = new File ("${resource.filePath}").bytes
+        response.setHeader("Content-Disposition", "attachment;filename=myfile")
+        byte[] myBytes = new File("${resource.filePath}").bytes
         response.setContentType("text/plain")
         response.outputStream << myBytes
 
+    }
+
+    def editResource(long id, String description) {
+        Resource resource = Resource.get(id)
+        resource.description = description
+        resource.save(flush: true, failOnError: true)
+
+        redirect(controller: "resource", action: "viewPost", params: ["id": id])
     }
 }

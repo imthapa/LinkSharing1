@@ -21,7 +21,7 @@ class TopicService {
 
     def createTopic(TopicCO topicCO, User user) {
         Topic topic = new Topic(name: topicCO.name,visibility: Visibility.toVisibility(topicCO.visibility),createdBy: user)
-        topic.save()
+        topic.save(failOnError:true,flush:true)
        // throw new IOException()
         subscriptionService.subscribeCreator(topic,Seriousness.SERIOUS)
     }

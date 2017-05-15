@@ -27,10 +27,23 @@ class SubscriptionService {
         }
     }
 
-    def save(User user, Integer id) {
+    def subscriptionUpdate(User user, long id) {
         Topic topic = Topic.get(id)
-        Subscription subscription = new Subscription(topic: topic, user: user, seriousness: Seriousness.SERIOUS)
-        subscription.save()
+        Subscription subscription = Subscription.findByUserAndTopic(user,topic)
+        if(subscription){
+            subscription.delete(flush:true,failOnError:true)
+        }else{
+            subscription = new Subscription(topic: topic, user: user, seriousness: Seriousness.SERIOUS)
+            subscription.save(flush:true,failOnError:true)
+        }
+
+        if (subscription.hasErrors()) {
+            log.info("${subscription.errors.allErrors}")
+            render "${subscription.errors.allErrors}"
+        } else {
+            log.info("new subscription is made for $user in topic ${topic.name}")
+            render "new subscription is made for $user in topic ${topic.name}"
+        }
     }
 
  /*   def getAllSubscription(User user) {

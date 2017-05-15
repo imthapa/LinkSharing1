@@ -1,5 +1,6 @@
 package linksharing
 
+import com.ttnd.linksharing.co.FileCO
 import com.ttnd.linksharing.co.SearchCO
 import com.ttnd.linksharing.co.UpdatePasswordCO
 import com.ttnd.linksharing.co.UserCO
@@ -7,11 +8,17 @@ import com.ttnd.linksharing.vo.InboxVO
 import com.ttnd.linksharing.vo.PostsVO
 import com.ttnd.linksharing.vo.UserDetailsVO
 import com.ttnd.linksharing.vo.TopicVO
+import org.springframework.web.multipart.MultipartFile
+
+import java.awt.image.BufferedImage
+import javax.imageio.ImageIO;
 
 //todo Q3. Add User controller with index action that will render text 'user dahsboard'
 class UserController {
 
+    def msg = flash.message ?: ""
     def subscriptionService
+    def userService
 
     def index() {
         User user = session.user
@@ -25,8 +32,8 @@ class UserController {
         List<TopicVO> subscriptionList = User.getSubscribedTopic(user)
         List<PostsVO> messages = user.getUnReadResources()
         log.info("------------------------------------------ $messages")
-        render view: 'dashboard', model: [users: userDetailsVO, subscriptionList: subscriptionList,
-                                          resourceList: messages,message: params.message]
+        render view: 'dashboard', model: [users       : userDetailsVO, subscriptionList: subscriptionList,
+                                          resourceList: messages, message: params.message]
     }
 /*
     def index(SearchCO searchCO){
@@ -49,16 +56,27 @@ class UserController {
 
     def image(Long userId) {
         User user = User.load(userId)
-        byte[] photo
-        if (!user?.photo) {
-            photo = assetResourceLocator.findAssetForURI('user.png').byteArray
+//        byte[] photo
+        String photoPath
+        if (!user?.photoPath) {
+            photoPath = assetResourceLocator.findAssetForURI('user.png').byteArray
         } else {
-            photo = user.photo
+            photoPath = user.photoPath
+            log.info("-----------------$photoPath----------------------")
+            File imageFile = new File(photoPath)
+            BufferedImage originalImage = ImageIO.read(imageFile);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(originalImage, "jpg", baos);
+            byte[] imageInByte = baos.toByteArray();
+            response.setHeader('Content-length', imageInByte.length.toString())
+            response.contentType = 'image/jpg' // or the appropriate image content type
+            response.outputStream << imageInByte
+            response.outputStream.flush()
         }
-        OutputStream out = response.getOutputStream()
-        out.write(photo)
-        out.flush()
-        out.close()
+//        OutputStream out = response.getOutputStream()
+//        out.write(photo)
+//        out.flush()
+//        out.close()
     }
 
     def unread(SearchCO searchCO) {
@@ -148,7 +166,7 @@ class UserController {
     }
 
     def updateProfile(UserCO co) {
-        def msg = flash.message ?: ""
+
         User user = User.findByUserName(session.user.userName)
         if (user) {
             if (co.firstName)
@@ -157,8 +175,9 @@ class UserController {
                 user.lastName = co.lastName
             if (co.userName)
                 user.userName = co.userName
-            if (user)
-                user.photo = co.photo
+            if (co.photo) {
+                user.photoPath = userService.uploadPhoto(user.userName, co.photo, request.getSession().getServletContext().getRealPath("/"))
+            }
             if (user.save(failOnError: true, flush: true)) {
                 flash.message = message(code: "profile.successfully.changed")
                 msg = flash.message
@@ -170,12 +189,10 @@ class UserController {
             flash.error = "User Not Found"
         }
 //        render view: "edit", model: [message: msg]
-        redirect(controller: "user", action: "editProfile", params:[message: msg])
+        redirect(controller: "user", action: "editProfile", params: [message: msg])
     }
 
     def editProfile(def msg) {
         render view: "edit", model: [message: msg]
     }
-
-
 }

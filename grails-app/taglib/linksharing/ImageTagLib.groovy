@@ -6,8 +6,8 @@ class ImageTagLib {
     static namespace = "pic"
     def imageFile ={ attrs ->
         def userInstance = User.get(attrs.id)
-        byte[] image = userInstance.photo
-        if (!userInstance.photo ){
+        String photoPath = userInstance.photoPath
+        if (!userInstance.photoPath ){
             log.info "eoeoeoeoeoeoeo"
             flash.error = "error!!!!!!!!!"
             return
@@ -20,7 +20,7 @@ class ImageTagLib {
 
     def userImage = { attrs, body ->
         User user = User.get(attrs.id)
-        out << "<img alt='${user.userName}' height='100' width='100' class='media-object recent-media-object-custom' " +
+        out << "<img alt='${user.userName}' style='max-width:100%;max-height:100%' class='media-object recent-media-object-custom' " +
                 "src='${createLink(controller: 'user', action: 'image', params: [userId: attrs.id])}'>"
     }
 }

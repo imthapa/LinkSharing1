@@ -68,7 +68,8 @@ class TopicController {
     //todo Domain2 - Q3. Use read() for /topic/show and load() for /resource/delete & /topic/delete action.
     def delete(Integer id) {
         String message = topicService.delete(id)
-        render "$message"
+        redirect(controller: "user",action: "index")
+//        render "$message"
     }
 
     //todo Q4) Exception of object not found should be handled in resource delete
@@ -139,10 +140,25 @@ class TopicController {
             cc "ishwarmani.thapa@tothenew.com"
             subject "invite from link sharing"
             text "Hi, You have been invite by ${inviter} to subscribe to ${topicName}"
-
         }
         flash.message = message(code: "invite.success")
         msg = flash.message
         redirect(controller: "user", action: "index", params: [message: msg])
+    }
+
+    def updateVisibility(long id, String visibility){
+
+        Topic topic = Topic.get(id)
+        topic.visibility = Visibility.toVisibility(visibility)
+        topic.save(flush:true,failOnError:true)
+
+    }
+
+    def editTopic(long id,String name){
+        Topic topic = Topic.get(id)
+        topic.name = name
+        topic.save(flush:true,failOnError:true)
+
+        redirect(controller: "user",action: "index")
     }
 }

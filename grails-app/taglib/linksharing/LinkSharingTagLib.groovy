@@ -44,13 +44,11 @@ class LinkSharingTagLib {
             if (readingItem) {
                 if (readingItem.isRead) {
                     body = "Mark As Unread"
-                    isRead = false
                 } else {
                     body = "Mark As Read"
-                    isRead = true
                 }
                 out << link(controller: 'readingItem', action: 'changeIsRead', name: 'readingItem',
-                        params: [id: resource.id, isRead: isRead], body)
+                        params: [id: resource.id, isRead: !readingItem.isRead], body)
             }
         }
     }
@@ -112,17 +110,48 @@ class LinkSharingTagLib {
         User user = session.user
         Long topicId = attrs.topicId
         if (user && topicId) {
-            Subscription subscription = Subscription.findByUserAndTopic(user,Topic.get(topicId))//user.getSubscription(topicId)
+            Subscription subscription = Subscription.findByUserAndTopic(user, Topic.get(topicId))
+//user.getSubscription(topicId)
 //           log.info("$subscription--------------------------------------------------------")
             if (subscription) {
-                out << render(template: '/topic/subscription', model: [subscription: subscription])
+                out << render(template: '/topic/seriousness', model: [subscription: subscription])
             }
         }
     }
 
+    def showVisibility = { attrs, body ->
+        User user = session.user
+        Long topicId = attrs.topicId
+        if (user && topicId) {
+            Topic topic = Topic.get(topicId)
+            if (topic) {
+                out << render(template: '/topic/visibility', model: [topic: topic])
+            }
+        }
+    }
+
+    def activateToggle ={ attr->
+        long id = attr.id
+        User user = User.get(id)
+        if(user.active)
+            out << "Deactivate"
+        else
+            out << "Activate"
+    }
     /*def topiCreated = { attrs ->
         out << /<g:select name='id' from="${Topic.findAllByCreatedBy(session.user)}" optionKey='id' optionValue='name' class='form-control pull-right'
         defaultLabel='default topic' id='id'/>/
     }*/
+    def subscriptionToggle = { attr->
+        long topic_id = attr.id
+        User user = session.user
+        Topic topic = Topic.get(topic_id)
+        Subscription subscription = Subscription.findByUserAndTopic(user,topic)
+        if(subscription)
+            out << "unsubscribe"
+        else
+            out << "subscribe"
+
+    }
 
 }

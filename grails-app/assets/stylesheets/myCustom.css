@@ -1,3 +1,21 @@
+
+.navbar-glyphsize{
+
+    padding: 8px;
+    padding-top: 10px;
+    font-size: 23px;
+}
+.mySearch{
+    padding-top: 8px;
+}
+
+.glyphsize{
+    /*color: black;*/
+    font-size: 23px;
+    padding-right: 8px;
+    /*margin-right: 6px;*/
+}
+/*
 .gap{
     margin-right: 8px;
     border: 1px solid black;
@@ -5,7 +23,7 @@
 }
 
 .user_image{
-    /*font-size: 60px;*/
+    !*font-size: 60px;*!
     border:1px solid;
     text-align: center;
     display: block;
@@ -21,10 +39,10 @@ img{
 .user_details{
     margin-bottom: 9px;
 }
-/*.onl_btn-facebook {*/
-    /*background: #3b5998;*/
-    /*border-color:#172d5e*/
-/*}*/
+!*.onl_btn-facebook {*!
+    !*background: #3b5998;*!
+    !*border-color:#172d5e*!
+!*}*!
 .panel-heading,.panel-body,.panel-footer{
     border: 0px;
 }
@@ -54,19 +72,18 @@ img{
     font-size: 18px;
     border-bottom: 2px solid black;
 }
-.navbar-glyphsize{
-    font-size: 20px;
-}
-/*.navbar{
+
+!*.navbar{
     color: black;
-}*/
-/*
+}*!
+!*
 .searcher{
     border-radius: 100px;
-}*/
+}*!
 .nav.navbar-nav.navbar-right li a {
     color: black;
 }
 .navbar-brand a{
     color: black;
 }
+*/

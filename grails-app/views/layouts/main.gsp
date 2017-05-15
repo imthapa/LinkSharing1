@@ -23,20 +23,24 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
                 <g:if test="${session.user}">
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                    <li><span class="glyphicon glyphicon-comment navbar-glyphsize" data-toggle="modal" data-target="#topicCreate"/></li>
+                    <li><span class="glyphicon glyphicon-envelope navbar-glyphsize " data-toggle="modal" data-target="#sendInvitation"/></li>
+                    <li><span class="glyphicon glyphicon-link navbar-glyphsize " data-toggle="modal" data-target="#linkCreate"/></li>
+                    <li><span class="glyphicon glyphicon-file navbar-glyphsize " data-toggle="modal" data-target="#docCreate"/></li>
+                    %{--<button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                             data-target="#sendInvitation">Send Invitation</button>
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                    <button type="button"   class="btn btn-success btn-sm" data-toggle="modal"
                             data-target="#topicCreate">Create Topic</button>
                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                             data-target="#linkCreate">Create Link</button>
                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                            data-target="#docCreate">Create Doc</button>
+                            data-target="#docCreate">Create Doc</button>--}%
                 </g:if>
             %{--<span class="glyphicon glyphicon-file" data-toggle="modal" data-target="#docCreate"></span>--}%
 
 
-                <div class="dropdown"><g:if test="${session.user}">
-                    <span class="dropdown-toggle glyphicon glyphicon-music" id="menu1" data-toggle="dropdown">
+                <span class="dropdown"><g:if test="${session.user}">
+                    <span class="dropdown-toggle glyphicon glyphicon-user navbar-glyphsize" id="menu1" data-toggle="dropdown">
                         ${session.user.userName}
                     </span>
                 %{-- <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
@@ -46,7 +50,8 @@
                         <li role="presentation"><g:link action="edit" controller="user"
                                                         params='["id": "${session.user.id}"]'>Profile</g:link></li>
                         <g:if test="${session.user.admin}">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Users</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="/admin">Users</a></li>
+                            %{--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Users</a></li>--}%
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Topics</a></li>
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Posts</a></li>
                         </g:if>
@@ -61,25 +66,20 @@
 
                     </ul>
                 </g:if>
-                </div>
+                </span>
             </ul>
 
             <div class="col-sm-3 col-md-3 pull-right">
-                <form class="navbar-form" role="search">
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default searcher" type="submit"><span
-                                    class="glyphicon glyphicon-search"></span></button>
-                        </div>
-
-                        <div class="input-group"><input type="text" class="form-control"
-                                                        placeholder="Search"
-                                                        name="srch-term"
-                                                        id="srch-term"/>
-                            <span id="searchclear" class="input-group-addon glyphicon glyphicon-remove-circle"></span>
-                        </div>
+                <g:form class="search-form pull-right mySearch">%{--  controller="topic" action="search"--}%
+                    <div class="form-group has-feedback">
+                        %{--<label class="sr-only">Search</label>--}%
+                        <g:hiddenField name="id" value="1" />
+                        <g:hiddenField name="max" value="10" />
+                        <g:hiddenField name="offset" value="0" />
+                        <input style="border-radius: 20px" type="text" class="form-control" name="q" id="q" placeholder="search">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
                     </div>
-                </form>
+                </g:form>
             </div>
         </div>
     </div>
@@ -94,4 +94,5 @@
 <asset:javascript src="application.js"/>
 %{--<asset:deferredScripts/>--}%
 </body>
+
 </html>

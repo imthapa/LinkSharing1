@@ -1,24 +1,27 @@
-<div class="panel panel-default">
-    <div class="panel-heading panel-heading-border">
-        <label>Change password</label>
-    </div>
+<div class="modal fade" id="forgotPassword" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Share Link</h4>
+            </div>
 
-    <div class="panel-body">
-        <g:form class="form-inline myform" controller="user" action="updatePassword">
-            <span>Old Password*</span>
-            <input type="text" class="form-control pull-right" name="oldPassword"
-                   placeholder="old password"/>
-            <br><br>
-            <span>New Password*</span>
-            <input type="text" class="form-control pull-right" name="password"
-                   placeholder="password"/>
-            <br><br>
-            <span>Confirm password*</span>
-            <input type="text" class="form-control pull-right" name="confirmPassword"
-                   placeholder="confirm password"/>
-            <br><br>
-            <input type="submit" class="form-control btn btn-info pull-right" value="update">
-        </g:form>
+            <div class="modal-body" style="margin-left: 15px;margin-right:15px;">
+                <g:form method="post" class="form-horizontal" controller="login" action="forgotPassword">
+                    <div class="form-group">
+                        <div class="control-label col-sm-3"><label class="pull-left">Enter Email-Id</label></div>
 
+                        <div class="col-sm-9">
+                            <g:textField type="email" class="form-control pull-right" name="email"
+                                         placeholder="enter your mail-id"/></div>
+                    </div>
+
+                    <div class="form-group" style="padding-left:15px;padding-right:15px">
+                        <button type="submit" class="btn btn-info ">Send New Password</button>
+                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">cancel</button>
+                    </div>
+                </g:form>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,6 +1,9 @@
 <g:each in="${resourceList}" var="resource">
     <div class="well">
         <div class="col-sm-2">
+            %{--<div class="well">--}%
+            <pic:userImage id="${resource.createdBy.id}"/>
+            %{--</div>--}%
             <!--<span class="glyphicon glyphicon-user "></span>-->
             <!-- %{--<img src="../images/user_image.jpg"/>--}% -->
         </div>
@@ -18,15 +21,15 @@
             </div>
         </div>
 
-        <div>
+        <div class="">
             <a href="https://www.facebook.com" style="margin-right:10px">
-                <i id="social-fb" class="fa fa-facebook-square fa-2x social glyphsize"></i></a>
+                <i id="social-fb" class="fa fa-facebook-square fa-2x social"></i></a>
             <a href="https://twitter.com" style="margin-right:10px">
-                <i id="social-tw" class="fa fa-twitter-square fa-2x social glyphsize"></i></a>
+                <i id="social-tw" class="fa fa-twitter-square fa-2x social"></i></a>
             <a href="https://plus.google.com" style="margin-right:10px">
-                <i id="social-gp" class="fa fa-google-plus-square fa-2x social glyphsize"></i></a>
+                <i id="social-gp" class="fa fa-google-plus-square fa-2x social"></i></a>
             <a href="mailto:bootsnipp@gmail.com" style="margin-right:10px">
-                <i id="social-em" class="fa fa-envelope-square fa-2x social glyphsize"></i></a>
+                <i id="social-em" class="fa fa-envelope-square fa-2x social"></i></a>
             <span class="pull-right">
                 <g:if test="${session.user}">
                     <a href="#" class="operations" style="margin-right:10px">Download</a>

@@ -153,7 +153,7 @@ abstract class Resource {
         if (ratingInfoVO == null) {
             ratingInfoVO = new RatingInfoVO(averageScore: 0)
         }
-        DetailedPostVO detailedPostVO = new DetailedPostVO(resourceID: id, description: resource.description,
+        DetailedPostVO detailedPostVO = new DetailedPostVO(topicId: id,createdById: resource.createdBy.id, resourceID: id, description: resource.description,
                 ratings: ratingInfoVO.averageScore, updated: resource.lastUpdated,
                 userName: resource.createdBy.userName, fullName: resource.createdBy.fullName,
                 topicName: resource.topic.name)

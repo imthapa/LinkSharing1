@@ -15,6 +15,7 @@ class LoginCheckInterceptor {
         match(controller: 'subscription',action: 'save')
         match(controller: 'subscription',action: 'update')
         match(controller: 'subscription',action: 'delete')
+        match(controller: 'admin',action: 'index')
     }
 
     //todo Q12. Add session check filter in application interceptor

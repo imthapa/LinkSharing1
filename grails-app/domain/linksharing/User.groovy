@@ -14,17 +14,19 @@ class User {
     String password;
     String confirmPassword
     boolean active = false;
-    byte[] photo;
+//    byte[] photo;
+    String photoPath;
     boolean admin
     Date dateCreated
     Date lastUpdated
 
-    static hasMany = [topic: Topic, subscription: Subscription, resource: Resource, readItem: ReadingItem]
+    static hasMany = [topic: Topic, subscription: Subscription, resource: Resource,
+                      readItem: ReadingItem]
 
     //todo Domain2 - Q2 User should be default sorted by the id desc so that latest created user comes first
     static mapping = {
         sort id: 'desc'
-        photo(sqlType: 'longBlob')
+//        photo(sqlType: 'longBlob')
         subscription lazy: false
     }
     static transients = ['fullName', 'confirmPassword', 'subscribedTopics']
@@ -41,7 +43,7 @@ class User {
         userName(unique: true)
         //todo Q23. If user is set the success should be rendered - Validation message should be on email(null,blank,email,unique), username(null,blank,unique), firstName(null,blank), lastName (null,blank), password(null,blank,minsize), confirmPassword (null,blank,customvalidator)
         password(blank: false, nullable: false, size: 5..15)
-           /*     validator: {
+           /* validator: {
             val, obj ->
                 //for register and update false and true respectively.
                 if (!obj.id)
@@ -49,7 +51,7 @@ class User {
         })*/
         firstName(blank: false, nullable: false)
         lastName(blank: false, nullable: false)
-        photo(nullable: true)
+        photoPath(nullable: true)
         admin(nullable: true)
         active(nullable: true)
 //        confirmPassword(nullable: true, blank: true)
@@ -119,7 +121,6 @@ class User {
                     createdBy: topic.createdBy, count: topic.resource.size(), subsCount: topic.subscription.size()))
 
         }
-
         topicsCreated
     }
 

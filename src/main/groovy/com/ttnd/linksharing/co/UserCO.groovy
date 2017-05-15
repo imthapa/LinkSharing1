@@ -1,6 +1,7 @@
 package com.ttnd.linksharing.co
 
 import grails.validation.Validateable
+import org.springframework.web.multipart.MultipartFile
 
 /**
  * Created by ishwar on 5/5/17.
@@ -12,7 +13,7 @@ class UserCO implements Validateable{
     String userName
     String password;
     String confirmPassword;
-    byte[] photo;
+    MultipartFile photo;
 
     static constraints = {
 

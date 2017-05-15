@@ -12,17 +12,10 @@ class SubscriptionController {
     //todo Domain2 Q14) Implement subscription save, update, delete
 
     //todo Domain2 1Q6) Create save action which takes id as parameter for topic id, user for subscription should be read from the session, if subscription save render success else errors
-    def save(Integer id) {
+    def save(long id) {
         User user = session.user
-        subscriptionService.save(user, id)
+        subscriptionService.subscriptionUpdate(user, id)
 
-        if (subscription.hasErrors()) {
-            log.info("${subscription.errors.allErrors}")
-            render "${subscription.errors.allErrors}"
-        } else {
-            log.info("new subscription is made for $user in topic ${topic.name}")
-            render "new subscription is made for $user in topic ${topic.name}"
-        }
     }
     //todo Domain2 Q15) Create subscription delete action which takes id as parameter, if it exist then delete and send success else render not found
     def delete(Integer id) {
