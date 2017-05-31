@@ -116,7 +116,8 @@ class TopicController {
     def showTrending() {
         List topicVO = Topic.getTrendingTopics()
         log.info("$topicVO")
-        render "$topicVO"
+//        render "$topicVO"
+        topicVO
     }
 
     def populate(){

@@ -19,7 +19,8 @@
                 </div>
 
                 <div class=" user_details">
-                    <label>${detailedPost.userName}</label>
+                    <g:link action="profile" controller="user" params='["id": "${detailedPost.createdById}"]'>${detailedPost.userName}</g:link>
+                    %{--<label>${detailedPost.userName}</label>--}%
                     <label class="pull-right user_details">
                         ${detailedPost.updated}
                     </label>
@@ -56,9 +57,19 @@
             <span class="pull-right">
                 <g:link controller="resource" action="delete" params='["id": "${detailedPost.resourceID}"]'>Delete</g:link>
                 <a class="operations" data-toggle="modal" data-target="#editResource">Edit</a>
-                <g:link action="download" class="pull-right" controller="resource"
+
+                <g:if test="${detailedPost.isLinkResource()}">
+                    <g:link controller="resource" action="newLink" params='["id": "${detailedPost.resourceID}"]'
+                            target="_blank">view full site</g:link>
+                </g:if>
+                <g:elseif test="${!(detailedPost.isLinkResource())}">
+                    <g:link action="download" class="pull-right" controller="resource"
+                            params='["id": "${detailedPost.resourceID}"]'>Download</g:link>
+                </g:elseif>
+
+                %{--<g:link action="download" class="pull-right" controller="resource"
                         params='["id": "${detailedPost.resourceID}"]'>Download</g:link>
-                <a href="#" class="operations">View Full Site</a>
+                <a href="#" class="operations">View Full Site</a>--}%
                 <g:render template="/resource/editResource" model="[detailedPost: detailedPost]"/>
             </span>
         </div>

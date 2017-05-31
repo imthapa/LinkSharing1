@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 //todo Q3. Add User controller with index action that will render text 'user dahsboard'
 class UserController {
 
-    def msg = flash.message ?: ""
+//    def msg = flash.message ?: ""
     def subscriptionService
     def userService
 
@@ -33,7 +33,7 @@ class UserController {
         List<PostsVO> messages = user.getUnReadResources()
         log.info("------------------------------------------ $messages")
         render view: 'dashboard', model: [users       : userDetailsVO, subscriptionList: subscriptionList,
-                                          resourceList: messages, message: params.message]
+                                          resourceList: messages]
     }
 /*
     def index(SearchCO searchCO){
@@ -101,7 +101,7 @@ class UserController {
         List<TopicVO> topicsCreated = User.allCreatedTopics(user)
         List<PostsVO> allPosts = User.allCreatedPost(user)
 //        users: userDetailsVO,
-        render view: "profile", model: ['subscriptionList': subscriptionList,
+        render view: "profile", model: [users: userDetailsVO, subscriptionList: subscriptionList,
                                         topicsCreated     : topicsCreated, allPosts: allPosts]
     }
 
@@ -189,10 +189,10 @@ class UserController {
             flash.error = "User Not Found"
         }
 //        render view: "edit", model: [message: msg]
-        redirect(controller: "user", action: "editProfile", params: [message: msg])
+        redirect(controller: "user", action: "editProfile"/*, params: [message: msg]*/)
     }
 
     def editProfile(def msg) {
-        render view: "edit", model: [message: msg]
+        render view: "edit"//, model: [message: msg]
     }
 }

@@ -142,7 +142,7 @@ class LinkSharingTagLib {
         out << /<g:select name='id' from="${Topic.findAllByCreatedBy(session.user)}" optionKey='id' optionValue='name' class='form-control pull-right'
         defaultLabel='default topic' id='id'/>/
     }*/
-    def subscriptionToggle = { attr->
+    /*def subscriptionToggle = { attr->
         long topic_id = attr.id
         User user = session.user
         Topic topic = Topic.get(topic_id)
@@ -152,6 +152,18 @@ class LinkSharingTagLib {
         else
             out << "subscribe"
 
+    }*/
+
+    def subscriptionToggle = { attr ->
+        long id = attr.id
+        User user = session.user
+        Topic topic = Topic.get(id)
+        Subscription subscription = Subscription.findByUserAndTopic(user, topic)
+        if (subscription) {
+            out << "unsubscribe"
+        } else {
+            out << "subscribe"
+        }
     }
 
 }

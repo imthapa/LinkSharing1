@@ -29,38 +29,38 @@ class SubscriptionService {
 
     def subscriptionUpdate(User user, long id) {
         Topic topic = Topic.get(id)
-        Subscription subscription = Subscription.findByUserAndTopic(user,topic)
-        if(subscription){
-            subscription.delete(flush:true,failOnError:true)
-        }else{
+        Subscription subscription = Subscription.findByUserAndTopic(user, topic)
+        if (subscription) {
+            subscription.delete(flush: true, failOnError: true)
+        } else {
             subscription = new Subscription(topic: topic, user: user, seriousness: Seriousness.SERIOUS)
-            subscription.save(flush:true,failOnError:true)
+            subscription.save(flush: true, failOnError: true)
         }
 
         if (subscription.hasErrors()) {
             log.info("${subscription.errors.allErrors}")
-            render "${subscription.errors.allErrors}"
+            return "${subscription.errors.allErrors}"
         } else {
             log.info("new subscription is made for $user in topic ${topic.name}")
-            render "new subscription is made for $user in topic ${topic.name}"
+            return "new subscription is made for $user in topic ${topic.name}"
         }
     }
 
- /*   def getAllSubscription(User user) {
-        log.info("i am inside getAllSubscription")
-        List<Subscription> subscriptionList = Subscription.findAllByUser(user)
-//        println( subscriptionList)
-        subscriptionList
+    /*   def getAllSubscription(User user) {
+           log.info("i am inside getAllSubscription")
+           List<Subscription> subscriptionList = Subscription.findAllByUser(user)
+   //        println( subscriptionList)
+           subscriptionList
 
-        //  render view:'dashboard', model: [subscriptionList: subscriptionList]
-    }
+           //  render view:'dashboard', model: [subscriptionList: subscriptionList]
+       }
 
-    def getThreeSubscription(User user) {
-        log.info("i am inside getAllSubscription")
-        List<Subscription> subscriptionList = Subscription.findAllByUser(user, [max: 3])
-//        println( subscriptionList)
-        subscriptionList
+       def getThreeSubscription(User user) {
+           log.info("i am inside getAllSubscription")
+           List<Subscription> subscriptionList = Subscription.findAllByUser(user, [max: 3])
+   //        println( subscriptionList)
+           subscriptionList
 
-        //  render view:'dashboard', model: [subscriptionList: subscriptionList]
-    }*/
+           //  render view:'dashboard', model: [subscriptionList: subscriptionList]
+       }*/
 }

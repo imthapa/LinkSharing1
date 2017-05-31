@@ -1,21 +1,9 @@
-<%@ page import="linksharing.User; com.ttnd.linksharing.util.Visibility" %>
+<%@ page import="linksharing.Resource; linksharing.LinkResource" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Admin Dashboard</title>
     <meta name="layout" content="main"/>
-    <script type="text/javascript">
-        function changeActiveness(element) {
-            jQuery.ajax({
-                type:'POST',
-                data:{'id': element.id},
-                url:'/admin/changeActive',
-                success:function () {
-                    location.reload()
-                }
-            });
-        }
-    </script>
 </head>
 
 <body>
@@ -25,15 +13,10 @@
         <div class="panel-heading clearfix">
             %{--<div class="row"  style="padding:0px;margin: 0px">--}%
             <div class="col-md-6 ">
-                <h4>Users</h4>
+                <h4>Posts</h4>
             </div>
 
             <div class="col-md-6">
-                <div class="col-md-6">
-                    <g:select name="visibility" from="${Visibility.values()}" class="form-control"
-                              defaultLabel="Visibility" id="visibility"/>
-                </div>
-
                 <div class="col-md-6">
                     <g:form class="search-form" controller="topic" action="search">
                         <div class="form-group has-feedback">
@@ -56,33 +39,48 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Active</th>
-                <th>Manage</th>
+                %{--<th>Resource Name</th>--}%
+                <th>Created By</th>
+                <th>Topic Under</th>
+                <th>Description</th>
+                <th>Resource</th>
+                %{--<th>Link</th>--}%
                 %{--<th>Update</th>--}%
             </tr>
             </thead>
             <tbody>
-            <g:each in="${users}" var="user">
+            <g:each in="${posts}" var="post">
                 <tr>
-                    <td>${user.id}</td>
-                    <td><g:link action="profile" controller="user" params='["id": "${user.id}"]'>${user.userName}</g:link></td>
-                    <td>${user.email}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
-                    <td >${user.active}</td>
-                    <td> <button class="btn" id="${user.id}" onclick="changeActiveness(this)"><ls:activateToggle id = "${user.id}"/></button></td>
-                    %{--<td><button class="btn btn-success" >update</button></td>--}%
+                    <td>${post.id}</td>
+                    <td><g:link action="profile" controller="user" params='["id": "${post.createdBy.id}"]'>${post.createdBy.userName}</g:link></td>
+                    <td><g:link action="show" controller="topic" params='["id": "${post.topic.id}"]'>${post.topic.name}</g:link></td>
+                    <td>${post.description}</td>
+                    <g:if test="${post instanceof LinkResource}">
+                        <td>${post.url}</td>
+                    </g:if>
+                    <g:else>
+                        <td>${post.filePath}</td>
+                    </g:else>
                 </tr></g:each>
             </tbody>
         </table>
-        <g:paginate total="${User.count()}" max="5"/>
         %{--</div>--}%
+        <a onclick="paginate(this)"><g:paginate total="${Resource.count()}" max="10"/></a>
     </div>
 </div>
-</body>
+<script type="text/javascript">
+    function paginate(element) {
+//        alert(element.name)
+        $.ajax({
+            type: 'POST',
+//            data: {id: element.name},
+            url: '/admin/index',
+            success: function () {
+//                location.reload()
+            }
 
+        })
+    }
+</script>
+</body>
 </html>

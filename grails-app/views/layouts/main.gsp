@@ -50,10 +50,15 @@
                         <li role="presentation"><g:link action="edit" controller="user"
                                                         params='["id": "${session.user.id}"]'>Profile</g:link></li>
                         <g:if test="${session.user.admin}">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="/admin">Users</a></li>
-                            %{--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Users</a></li>--}%
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="/admin/index">Users</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                       href="/admin/showAllTopic">Topics</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                       href="/admin/showAllPosts">Posts</a></li>
+                            %{--<li role="presentation"><a role="menuitem" tabindex="-1" href="/admin">Users</a></li>
+                            --}%%{--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Users</a></li>--}%%{--
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Topics</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Posts</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Posts</a></li>--}%
                         </g:if>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="/login/logout">Logout
                         %{--<g:if test="${session.user}">
@@ -84,13 +89,23 @@
         </div>
     </div>
 </nav>
+<g:if test="${flash.error}">
+    <div class="alert alert-danger">
+        <strong>${flash.error}</strong>
+    </div>
+</g:if>
+<g:if test="${flash.message}">
+    <div class="alert alert-success">
+        <strong>${flash.message}</strong>
+    </div>
+</g:if>
 <g:layoutBody/>
 <g:render template="/resource/linkCreate" model="[resource: resource]"/>
 <g:render template="/resource/docResource" model="[resource: resource]"/>
 <g:render template="/topic/create" model="[topic: topic]"/>
 <g:render template="/topic/invite"/>
 
-<g:include controller="home" action="showMessage"/>
+%{--<g:include controller="home" action="showMessage"/>--}%
 <asset:javascript src="application.js"/>
 %{--<asset:deferredScripts/>--}%
 </body>

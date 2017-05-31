@@ -13,20 +13,26 @@ class SubscriptionController {
 
     //todo Domain2 1Q6) Create save action which takes id as parameter for topic id, user for subscription should be read from the session, if subscription save render success else errors
     def save(long id) {
+        println "SubscriptionController.save"
         User user = session.user
         subscriptionService.subscriptionUpdate(user, id)
+//        redirect(controller: 'user', action: 'index')
 
     }
     //todo Domain2 Q15) Create subscription delete action which takes id as parameter, if it exist then delete and send success else render not found
     def delete(Integer id) {
         Subscription subscription = Subscription.get(id)
-//        log.info("$subscription")
-        if (subscription != null) {
-            subscription.delete(flush: true, failOnError: true)
-            render "subscription successfully deleted"
+        if (subscription.topic.createdBy.id != session.user.id) {
+            if (subscription) {
+                subscription.delete(flush: true)
+                flash.message = "Subscription deleted"
+            } else {
+                flash.error = "Error: Subscription not found"
+            }
         } else {
-            render "subscription not found"
+            flash.error = "Creator can not delete subscription"
         }
+        redirect(controller: 'user', action: 'index')
     }
 
     //todo Domain2 Q17) Create update action which takes an id and serious as a parameter if subscription and seriousness found, then save else render not found, if saved then render success else errors
@@ -54,6 +60,11 @@ class SubscriptionController {
         Topic topic = Topic.get(1)
         list = topic.getSubscribedUsers(topic)
         render list
+    }
+
+    def viewAllSubscription(){
+        def list=User.getSubscribedTopic(session.user)
+        render view:'viewAllSubs', model: ['list':list]
     }
 
 }

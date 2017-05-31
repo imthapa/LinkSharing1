@@ -1,5 +1,9 @@
 package com.ttnd.linksharing.vo
 
+import linksharing.DocumentResource
+import linksharing.LinkResource
+import linksharing.Resource
+
 /**
  * Created by ishwar on 13/5/17.
  */
@@ -14,6 +18,14 @@ class DetailedPostVO {
     int ratings
     Date updated
     long resourceID
+
+    boolean isLinkResource(){
+        Resource resource= Resource.get(resourceID)
+        if(resource instanceof LinkResource)
+            return true
+        else if(resource instanceof DocumentResource)
+            return false
+    }
 
     @Override
     public String toString() {

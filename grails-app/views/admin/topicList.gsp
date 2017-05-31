@@ -1,21 +1,9 @@
-<%@ page import="linksharing.User; com.ttnd.linksharing.util.Visibility" %>
+<%@ page import="linksharing.Topic" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Admin Dashboard</title>
     <meta name="layout" content="main"/>
-    <script type="text/javascript">
-        function changeActiveness(element) {
-            jQuery.ajax({
-                type:'POST',
-                data:{'id': element.id},
-                url:'/admin/changeActive',
-                success:function () {
-                    location.reload()
-                }
-            });
-        }
-    </script>
 </head>
 
 <body>
@@ -25,15 +13,10 @@
         <div class="panel-heading clearfix">
             %{--<div class="row"  style="padding:0px;margin: 0px">--}%
             <div class="col-md-6 ">
-                <h4>Users</h4>
+                <h4>Topics</h4>
             </div>
 
             <div class="col-md-6">
-                <div class="col-md-6">
-                    <g:select name="visibility" from="${Visibility.values()}" class="form-control"
-                              defaultLabel="Visibility" id="visibility"/>
-                </div>
-
                 <div class="col-md-6">
                     <g:form class="search-form" controller="topic" action="search">
                         <div class="form-group has-feedback">
@@ -56,33 +39,40 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Active</th>
-                <th>Manage</th>
+                <th>Topic Name</th>
+                <th>Created By</th>
+                <th>Visibility</th>
                 %{--<th>Update</th>--}%
             </tr>
             </thead>
             <tbody>
-            <g:each in="${users}" var="user">
+            <g:each in="${topics}" var="topic">
                 <tr>
-                    <td>${user.id}</td>
-                    <td><g:link action="profile" controller="user" params='["id": "${user.id}"]'>${user.userName}</g:link></td>
-                    <td>${user.email}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
-                    <td >${user.active}</td>
-                    <td> <button class="btn" id="${user.id}" onclick="changeActiveness(this)"><ls:activateToggle id = "${user.id}"/></button></td>
-                    %{--<td><button class="btn btn-success" >update</button></td>--}%
+                    <td>${topic.id}</td>
+                    <td><g:link action="show" controller="topic" params='["id": "${topic.id}"]'>${topic.name}</g:link></td>
+                    <td><g:link action="profile" controller="user" params='["id": "${topic.createdBy.id}"]'>${topic.createdBy.userName}</g:link></td>
+                    <td>${topic.visibility}</td>
                 </tr></g:each>
             </tbody>
         </table>
-        <g:paginate total="${User.count()}" max="5"/>
         %{--</div>--}%
+        <g:paginate total="${Topic.count()}" max="5" />
+    </div>
     </div>
 </div>
-</body>
+%{--<script type="text/javascript">
+    function toggleActivate(element) {
+//        alert(element.name)
+        $.ajax({
+            type: 'POST',
+            data: {id: element.name},
+            url: '/admin/toggleActive',
+            success: function () {
+                location.reload()
+            }
 
+        })
+    }
+</script>--}%
+</body>
 </html>

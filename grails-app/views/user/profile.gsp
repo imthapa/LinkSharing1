@@ -8,8 +8,8 @@
 <div class="col-md-5">
     <div class="panel panel-default">
         <div class="panel-body">
-            %{--<g:render template="show"/>--}%
-            <ls:loggedInUser/>
+            <g:render template="show" model="[users: users]"/>
+            %{--<ls:loggedInUser/>--}%
         </div>
     </div>
 

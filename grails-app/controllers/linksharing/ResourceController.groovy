@@ -103,4 +103,9 @@ class ResourceController {
 
         redirect(controller: "resource", action: "viewPost", params: ["id": id])
     }
+
+    def newLink(long id) {
+        Resource resource = Resource.get(id)
+        redirect url: resource.url
+    }
 }

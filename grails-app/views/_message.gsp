@@ -1,3 +1,4 @@
+%{--
 <g:if test="${message}">
     <div class="container">
         <div class="alert alert-danger fade in">
@@ -7,4 +8,4 @@
             </strong>
         </div>
     </div>
-</g:if>
+</g:if>--}%

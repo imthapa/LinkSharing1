@@ -20,28 +20,10 @@
                     </span>
                 </div>
 
-               %{-- <div class="col-xs-12 name-center" id="changer" style="margin: 5px 0; display: none;">
-                    <g:hiddenField name="topicId" class="topicId" value="${topic.id}"/>
-                    <div class="col-xs-12 col-md-6">
-                        <g:textField name="topicName" value="${topic.name}" class="form-control topicName"
-                                     style="width: 100%;"/>
-                    </div>
-
-                    <div class="col-xs-6 col-md-3">
-                        <g:submitButton name="save" class="btn btn-success" style="width: 100%;"/>
-                    </div>
-
-                    <div class="col-xs-6 col-md-3">
-                        <button id="cancel" type="button" class="btn btn-primary "
-                                style="width: 100%;">Cancel</button>
-                    </div>
-                </div>--}%
-
                 <div>
                     <div style="padding-left: 0px" class="col-md-5">
-                        <div>${topic.createdBy}</div>
-
-                        <div><a href="" onclick="return changeSubscription(this)"><ls:subscriptionToggle
+                    <div><g:link action="profile" controller="user" params='["id": "${topic.createdBy.id}"]'>${topic.createdBy.userName}</g:link></div>
+                        <div><a href="" name="${topic.id}" onclick="changeSubscription(this)"><ls:subscriptionToggle
                                 id="${topic.id}"/></a></div>
                     </div>
 
@@ -55,7 +37,6 @@
 
                     <div class="col-md-2">
                         <div>post</div>
-                        %{--<div>${topic.count}</div>--}%
                         <div>
                             <ls:resourceCount topicId="${topic.id}"/>
                         </div>
@@ -66,7 +47,7 @@
         </div>
 
         <div class="row">
-            <span class="   ">
+            <span >
                 <ls:showSeriousness topicId="${topic.id}"/>
                 <g:if test="${session.user.userName == topic.createdBy.userName}">
                     <ls:showVisibility topicId="${topic.id}"/>
@@ -85,32 +66,30 @@
                 </g:if>
             </span>
         </div>
-
     </div>
 </g:each>
 
 <script type="text/javascript">
 
     function changeSubscription(element) {
-        console.log(element.id)
+        console.log(element.name)
         jQuery.ajax({
             type: 'POST',
-            data: {'id': element.id},
+            data: {'id': element.name},
             url: '/subscription/save',
             success: function () {
                 location.reload()
             }
         });
     }
-
-    $('#edit').on('click', function (event) {
+   /* $('#edit').on('click', function (event) {
         event.stopPropagation()
         event.stopImmediatePropagation()
         $(this).closest('.locateHider').find()
     })
     $("#cancel").click(function () {
         $("#changer").hide();
-    });
+    });*/
     /* function updateSeriousness(val) {
      jQuery.ajax({
      type: 'POST',
@@ -118,6 +97,4 @@
      url: '/subscription/update',
      });
      }*/
-
-
 </script>

@@ -10,8 +10,6 @@
 
 <script type="text/javascript">
     function changeVisibility(element) {
-        console.log(element.name)
-        console.log(element.value)
         jQuery.ajax({
             type:'POST',
             data:{'id': element.name, 'visibility' : element.value},
